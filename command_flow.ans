@@ -1,0 +1,58 @@
+finish
+/clear
+/filename,nodle
+/prep7
+!==============element type
+et,1,solid185
+!==============material property
+mp,ex,1,30e3
+mp,prxy,1,0.2
+mp,dens,1,1200
+!==============size difine
+a=0.01
+b=0.01
+c=0.7
+block,0,c,-a/2,a/2,-b/2,b/2
+
+lsel,all
+lesize,all,a
+alls
+
+!================mesh
+type,1
+mat,1
+vmesh,all
+alls
+
+!======================BC
+/sol
+
+nsel,s,loc,x,0
+
+d,all,ux,0
+d,all,uy,0
+d,all,uz,0
+alls
+
+
+!===============load time step
+/sol
+deltat=1
+n=50
+force=1e-5
+freq=0.1
+
+antype,trans
+trnopt,full
+*do,i,1,n,1
+	time,i*deltat
+	nsel,s,loc,x,c
+	f,all,fy,force*cos(2*3.14*freq*i*deltat)
+	alls
+	solve
+*enddo
+
+
+
+
+
